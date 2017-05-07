@@ -16,7 +16,7 @@ namespace MVC5Course.Controllers
            
             var all = db.Product.AsQueryable();
 
-            var data = all.Where(p => p.Active == true &&  p.IsDeleted != true && p.ProductName.Contains("Black")).Take(20);
+            var data = all.Where(p => p.Active == true &&  p.Is刪除 != true && p.ProductName.Contains("Black")).Take(20);
 
             return View(data);
         }
@@ -71,18 +71,19 @@ namespace MVC5Course.Controllers
             //db.OrderLine.RemoveRange(item.OrderLine);
 
             //db.Product.Remove(item);
-            item.IsDeleted = true;
+            item.Is刪除 = true;
             db.SaveChanges();
             return RedirectToAction("Index");
 
         }
         public ActionResult Details(int? id)
         {
-            var product = db.Product.Find(id);
-            if (product == null)
-            {
-                return HttpNotFound();
-            }
+            //var product = db.Product.Find(id);
+            //if (product == null)
+            //{
+            //    return HttpNotFound();
+            //}
+            var product = db.Database.SqlQuery<Product>("select * from Product where ProductId = @p0", id).FirstOrDefault();
             return View(product);
         }
     }

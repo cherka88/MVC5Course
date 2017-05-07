@@ -25,7 +25,7 @@ namespace MVC5Course.Models
         public Nullable<decimal> Price { get; set; }
         public Nullable<bool> Active { get; set; }
         public Nullable<decimal> Stock { get; set; }
-        public Nullable<bool> IsDeleted { get; set; }
+        public Nullable<bool> Is刪除 { get; set; }
         public System.DateTime createDate { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
