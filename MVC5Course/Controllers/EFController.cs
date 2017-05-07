@@ -16,7 +16,7 @@ namespace MVC5Course.Controllers
            
             var all = db.Product.AsQueryable();
 
-            var data = all.Where(p => p.Active == true && p.ProductName.Contains("Black")).Take(20);
+            var data = all.Where(p => p.Active == true &&  p.IsDeleted != true && p.ProductName.Contains("Black")).Take(20);
 
             return View(data);
         }
@@ -63,14 +63,15 @@ namespace MVC5Course.Controllers
         {
             var item = db.Product.Find(id);
 
-            foreach (var list in item.OrderLine.ToList())
-            {
-                db.OrderLine.Remove(list);
-            }
+            //foreach (var list in item.OrderLine.ToList())
+            //{
+            //    db.OrderLine.Remove(list);
+            //}
             // 等於下面一行語法
             //db.OrderLine.RemoveRange(item.OrderLine);
 
-            db.Product.Remove(item);
+            //db.Product.Remove(item);
+            item.IsDeleted = true;
             db.SaveChanges();
             return RedirectToAction("Index");
 
