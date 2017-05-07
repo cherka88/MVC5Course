@@ -16,7 +16,7 @@ namespace MVC5Course.Controllers
            
             var all = db.Product.AsQueryable();
 
-            var data = all.Where(p => p.Active == true && p.ProductName.Contains("Black"));
+            var data = all.Where(p => p.Active == true && p.ProductName.Contains("Black")).Take(20);
 
             return View(data);
         }
