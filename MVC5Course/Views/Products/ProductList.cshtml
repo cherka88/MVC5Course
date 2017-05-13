@@ -9,6 +9,15 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+<form method="get">
+    <label>篩選:</label>
+    @Html.TextBox("q")
+    <label>庫存:</label>
+    @Html.TextBox("sotck")
+    <label>價格:</label>
+    @Html.TextBox("price")
+    <button>搜尋</button>
+</form>
 <table class="table">
     <tr>
         <th>

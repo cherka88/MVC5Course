@@ -137,22 +137,24 @@ namespace MVC5Course.Controllers
         //    }
         //    base.Dispose(disposing);
         //}
-        public ActionResult ProductList()
+        public ActionResult ProductList(string q, int price = 3, int stock = 900)
         {
-            var data = repo.Get商品資料列表(true,true)
-                           .Select(p => new ProductLite
-                            {
-                                ProductId = p.ProductId,
-                                ProductName = p.ProductName,
-                                Price = p.Price,
-                                Stock = p.Stock
-                
-                            }).Take(20);
+            var data = repo.Get商品資料列表(true, true);
 
-            ViewData.Model = data;
-            ViewData["ppp"] = data;
-            ViewBag.qqq = data;
-            TempData["aaa"] = data;
+            if (!string.IsNullOrEmpty(q))
+            {
+                data = data.Where(p => p.ProductName.Contains(q));
+            }
+            ViewData.Model = data.Where(p => p.Stock > stock && p.Price > price)
+                                 .Select(p => new ProductLite
+                                        {
+                                            ProductId = p.ProductId,
+                                            ProductName = p.ProductName,
+                                            Price = p.Price,
+                                            Stock = p.Stock
+                
+                                        }).Take(20);
+
             return View();
         }
 
