@@ -139,7 +139,14 @@ namespace MVC5Course.Controllers
         //}
         public ActionResult ProductList(SearchRtn query)
         {
-
+            if(query == null) //修正搜尋功能query null時異常
+            {
+                ViewBag.query = new SearchRtn()
+                {
+                    price = 1,
+                    stock = 200
+                };
+            }
             GetPrductRtn(query);
             return View();
         }
@@ -179,7 +186,7 @@ namespace MVC5Course.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult BatchUpdate(SearchRtn query, ProductBatchUpdate[] items)
+        public ActionResult ProductList(SearchRtn query, ProductBatchUpdate[] items)
         {
 
             if (ModelState.IsValid)
@@ -191,10 +198,10 @@ namespace MVC5Course.Controllers
                     prod.Stock = item.Stock;
                 }
                 db.SaveChanges();
-                return RedirectToAction("ProductList");
+                return RedirectToAction("ProductList", query);
             }
             GetPrductRtn(query);
-            return View();
+            return View("ProductList");
         }
     }
 }

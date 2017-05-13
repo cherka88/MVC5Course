@@ -11,15 +11,15 @@
 </p>
 <form method="get">
     <label>篩選:</label>
-    @Html.TextBox("q")
+    @Html.TextBox("query.q")
     <label>庫存:</label>
-    @Html.TextBox("sotck")
+    @Html.TextBox("query.sotck", null, new { size = "10", type = "number" });
     <label>價格:</label>
-    @Html.TextBox("price")
+    @Html.TextBox("query.price", null, new { size = "10", type = "number" })
     <button>搜尋</button>
 </form>
 
-@using (@Html.BeginForm("BatchUpdate", "Products"))
+@using (@Html.BeginForm())
 {
 
 
