@@ -1,7 +1,8 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-	
+using System.Data.Entity;
+
 namespace MVC5Course.Models
 {   
 	public  class ProductRepository : EFRepository<Product>, IProductRepository
@@ -22,9 +23,9 @@ namespace MVC5Course.Models
                 return this.All();
             }
         }
-        {
+        
 
-        }
+        
         public Product Get³æµ§¸ê®ÆByID(int id)
         {
             return this.All().FirstOrDefault(p => p.ProductId == id);
@@ -39,6 +40,11 @@ namespace MVC5Course.Models
             }
             return all.Where(p => p.Active.HasValue && p.Active == active)
                 .OrderByDescending(p => p.ProductId).Take(10);
+        }
+
+        public void Update(Product product)
+        {
+            this.UnitOfWork.Context.Entry(product).State = EntityState.Modified;
         }
     }
 

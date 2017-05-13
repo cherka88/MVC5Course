@@ -22,7 +22,7 @@ namespace MVC5Course.Controllers
             //var repo = new ProductRepository();
             //repo.UnitOfWork = GetUnitOfWork(); 兩行做法可以變成一行 line:16
 
-            var queryable = repo.Get商品資料列表(active, showall: false);
+            var queryable = repo.Get商品資料列表(active, showall: true);
 
             return View(queryable);
         }
@@ -57,8 +57,8 @@ namespace MVC5Course.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Product.Add(product);
-                db.SaveChanges();
+                repo.Add(product);
+                repo.UnitOfWork.Commit();
                 return RedirectToAction("Index");
             }
 
@@ -72,7 +72,8 @@ namespace MVC5Course.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Product product = db.Product.Find(id);
+            //Product product = db.Product.Find(id);
+            Product product = repo.Get單筆資料ByID(id.Value);
             if (product == null)
             {
                 return HttpNotFound();
@@ -89,8 +90,10 @@ namespace MVC5Course.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(product).State = EntityState.Modified;
-                db.SaveChanges();
+                //db.Entry(product).State = EntityState.Modified;
+                //db.SaveChanges();
+                repo.Update(product);
+                repo.UnitOfWork.Commit();
                 return RedirectToAction("Index");
             }
             return View(product);
@@ -103,7 +106,8 @@ namespace MVC5Course.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Product product = db.Product.Find(id);
+            //Product product = db.Product.Find(id);
+            Product product = repo.Get單筆資料ByID(id.Value);
             if (product == null)
             {
                 return HttpNotFound();
@@ -116,30 +120,34 @@ namespace MVC5Course.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Product product = db.Product.Find(id);
-            db.Product.Remove(product);
-            db.SaveChanges();
+            //Product product = db.Product.Find(id);
+            //db.Product.Remove(product);
+            //db.SaveChanges();
+            Product product = repo.Get單筆資料ByID(id); //不是 nullable 不用 value
+            repo.Delete(product);
+            repo.UnitOfWork.Commit();
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+        //protected override void Dispose(bool disposing)
+        //{
+        //    if (disposing)
+        //    {
+        //        db.Dispose();
+        //    }
+        //    base.Dispose(disposing);
+        //}
         public ActionResult ProductList()
         {
-            var data = db.Product.Select(p => new ProductLite
-            {
-                ProductId = p.ProductId,
-                ProductName = p.ProductName,
-                Price = p.Price,
-                Stock = p.Stock
+            var data = repo.Get商品資料列表(true)
+                           .Select(p => new ProductLite
+                            {
+                                ProductId = p.ProductId,
+                                ProductName = p.ProductName,
+                                Price = p.Price,
+                                Stock = p.Stock
                 
-            }).Take(20);
+                            }).Take(20);
             return View(data);
         }
 
