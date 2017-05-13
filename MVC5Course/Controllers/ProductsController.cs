@@ -11,7 +11,7 @@ using MVC5Course.Models.ViewModels;
 
 namespace MVC5Course.Controllers
 {
-    public class ProductsController : Controller
+    public class ProductsController : BaseController
     {
         ProductRepository repo = RepositoryHelper.GetProductRepository();
         //private FabricsEntities db = new FabricsEntities();
@@ -22,7 +22,7 @@ namespace MVC5Course.Controllers
             //var repo = new ProductRepository();
             //repo.UnitOfWork = GetUnitOfWork(); 兩行做法可以變成一行 line:16
 
-            var queryable = repo.Get商品資料列表(active, showall: true);
+            var queryable = repo.Get商品資料列表(active, showall: false);
 
             return View(queryable);
         }

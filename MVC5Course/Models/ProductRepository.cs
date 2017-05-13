@@ -31,7 +31,7 @@ namespace MVC5Course.Models
             return this.All().FirstOrDefault(p => p.ProductId == id);
         }
 
-        public IQueryable<Product> Get商品資料列表(bool active, bool showall = true)
+        public IQueryable<Product> Get商品資料列表(bool active, bool showall = false)
         {
             IQueryable<Product> all = this.All();
             if (showall)
@@ -41,7 +41,12 @@ namespace MVC5Course.Models
             return all.Where(p => p.Active.HasValue && p.Active == active)
                 .OrderByDescending(p => p.ProductId).Take(10);
         }
-
+        public override void Delete(Product entity)
+        {
+            this.UnitOfWork.Context.Configuration.ValidateOnSaveEnabled = false;
+            
+            entity.Is刪除 = true;
+        }
         public void Update(Product product)
         {
             this.UnitOfWork.Context.Entry(product).State = EntityState.Modified;
