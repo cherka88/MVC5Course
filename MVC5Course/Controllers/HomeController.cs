@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace MVC5Course.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         public ActionResult Index()
         {
@@ -46,6 +46,11 @@ namespace MVC5Course.Controllers
         public ActionResult GetFile()
         {
             return File(Server.MapPath("~/Content/computexKeynote2017_A_250x250.jpg"), "image/jpeg", $"{DateTime.Now.ToString()}.jpg");
+        }
+        public ActionResult GetJson()
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+            return Json(db.Product.Take(5),JsonRequestBehavior.AllowGet);
         }
         public ActionResult Test()
         {
