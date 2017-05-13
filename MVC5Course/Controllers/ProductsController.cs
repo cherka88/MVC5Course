@@ -166,8 +166,9 @@ namespace MVC5Course.Controllers
         {
             if (ModelState.IsValid)
             {
-                return RedirectToAction("ProductList");
                 TempData["createinfo"] = data;
+                return RedirectToAction("ProductList");
+                
             }
             return View();
         }
