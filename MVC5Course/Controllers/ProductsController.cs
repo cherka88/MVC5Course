@@ -22,7 +22,7 @@ namespace MVC5Course.Controllers
             //var repo = new ProductRepository();
             //repo.UnitOfWork = GetUnitOfWork(); 兩行做法可以變成一行 line:16
 
-            var queryable = repo.Get商品資料列表(active, showall: false);
+            var queryable = repo.Get商品資料列表(active, showall: true);
 
             return View(queryable);
         }
@@ -139,7 +139,7 @@ namespace MVC5Course.Controllers
         //}
         public ActionResult ProductList()
         {
-            var data = repo.Get商品資料列表(true)
+            var data = repo.Get商品資料列表(true,true)
                            .Select(p => new ProductLite
                             {
                                 ProductId = p.ProductId,
@@ -148,7 +148,12 @@ namespace MVC5Course.Controllers
                                 Stock = p.Stock
                 
                             }).Take(20);
-            return View(data);
+
+            ViewData.Model = data;
+            ViewData["ppp"] = data;
+            ViewBag.qqq = data;
+            TempData["aaa"] = data;
+            return View();
         }
 
         public ActionResult CreateProduct()
@@ -162,6 +167,7 @@ namespace MVC5Course.Controllers
             if (ModelState.IsValid)
             {
                 return RedirectToAction("ProductList");
+                TempData["createinfo"] = data;
             }
             return View();
         }

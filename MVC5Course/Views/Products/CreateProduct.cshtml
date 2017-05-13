@@ -2,6 +2,16 @@
 
 @{
     ViewBag.Title = "CreateProduct";
+    var data1 = ViewData["ppp"] as IEnumerable<MVC5Course.Models.Product>;
+
+
+    var data2 = ViewBag.qqq as IEnumerable<MVC5Course.Models.Product>;
+
+    if (ViewBag.qqq == ViewData["qqq"]) { }
+    if (TempData["createinfo"] != null)
+    {
+        <h1>@TempData["CreateProduct_Result"]</h1>
+    }
 }
 
 <h2>CreateProduct</h2>
