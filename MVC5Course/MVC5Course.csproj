@@ -275,6 +275,7 @@
     <Compile Include="Models\RepositoryHelper.cs">
       <DependentUpon>IRepository.EF6..tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SearchRtn.cs" />
     <Compile Include="Models\ValidationAttributes\商品名稱需要包含WillAttribute.cs" />
     <Compile Include="Models\ViewModels\ProductLite.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

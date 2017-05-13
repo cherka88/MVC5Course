@@ -137,15 +137,15 @@ namespace MVC5Course.Controllers
         //    }
         //    base.Dispose(disposing);
         //}
-        public ActionResult ProductList(string q, int price = 3, int stock = 900)
+        public ActionResult ProductList(SearchRtn query)
         {
             var data = repo.Get商品資料列表(true, true);
 
-            if (!string.IsNullOrEmpty(q))
+            if (!string.IsNullOrEmpty(query.q))
             {
-                data = data.Where(p => p.ProductName.Contains(q));
+                data = data.Where(p => p.ProductName.Contains(query.q));
             }
-            ViewData.Model = data.Where(p => p.Stock > stock && p.Price > price)
+            ViewData.Model = data.Where(p => p.Stock > query.stock && p.Price > query.price)
                                  .Select(p => new ProductLite
                                         {
                                             ProductId = p.ProductId,
