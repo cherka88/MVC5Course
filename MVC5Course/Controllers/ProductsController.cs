@@ -139,23 +139,27 @@ namespace MVC5Course.Controllers
         //}
         public ActionResult ProductList(SearchRtn query)
         {
-            var data = repo.Get商品資料列表(true, true);
 
+            GetPrductRtn(query);
+            return View();
+        }
+
+        private void GetPrductRtn(SearchRtn query)
+        {
+            var data = repo.Get商品資料列表(true, true);
             if (!string.IsNullOrEmpty(query.q))
             {
                 data = data.Where(p => p.ProductName.Contains(query.q));
             }
             ViewData.Model = data.Where(p => p.Stock > query.stock && p.Price > query.price)
                                  .Select(p => new ProductLite
-                                        {
-                                            ProductId = p.ProductId,
-                                            ProductName = p.ProductName,
-                                            Price = p.Price,
-                                            Stock = p.Stock
-                
-                                        }).Take(20);
+                                 {
+                                     ProductId = p.ProductId,
+                                     ProductName = p.ProductName,
+                                     Price = p.Price,
+                                     Stock = p.Stock
 
-            return View();
+                                 }).Take(20);
         }
 
         public ActionResult CreateProduct()
@@ -172,6 +176,24 @@ namespace MVC5Course.Controllers
                 return RedirectToAction("ProductList");
                 
             }
+            return View();
+        }
+        [HttpPost]
+        public ActionResult BatchUpdate(SearchRtn query, ProductBatchUpdate[] items)
+        {
+
+            if (ModelState.IsValid)
+            {
+                foreach (var item in items)
+                {
+                    var prod = db.Product.Find(item.ProductId);
+                    prod.Price = item.Price;
+                    prod.Stock = item.Stock;
+                }
+                db.SaveChanges();
+                return RedirectToAction("ProductList");
+            }
+            GetPrductRtn(query);
             return View();
         }
     }

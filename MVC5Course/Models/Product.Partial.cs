@@ -34,7 +34,7 @@ namespace MVC5Course.Models
         
         [StringLength(80, ErrorMessage = "欄位長度不得大於 80 個字元")]
         [DisplayName("商品名稱")]
-        [商品名稱需要包含Will(ErrorMessage ="名稱須包含Will")]
+       
         public string ProductName { get; set; }
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:0}")]
         [DisplayName("價格")]
