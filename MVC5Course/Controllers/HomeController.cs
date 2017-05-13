@@ -43,6 +43,10 @@ namespace MVC5Course.Controllers
         {
             return PartialView("SuccessRedirect", "/");
         }
+        public ActionResult GetFile()
+        {
+            return File(Server.MapPath("~/Content/computexKeynote2017_A_250x250.jpg"), "image/jpeg", $"{DateTime.Now.ToString()}.jpg");
+        }
         public ActionResult Test()
         {
             return View();
