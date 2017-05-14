@@ -95,7 +95,7 @@ namespace MVC5Course.Controllers
             {
                 //db.Entry(product).State = EntityState.Modified;
                 //db.SaveChanges();
-                repo.Update(product);
+                //repo.Update(product);
                 repo.UnitOfWork.Commit();
                 return RedirectToAction("Index");
             }

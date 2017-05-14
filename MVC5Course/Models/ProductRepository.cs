@@ -9,7 +9,7 @@ namespace MVC5Course.Models
 	{
         public override IQueryable<Product> All()
         {
-            return base.All().Where(p => p.Is§R°£ == false);
+            return base.All();
         }
 
         public IQueryable<Product> All(bool showall)
