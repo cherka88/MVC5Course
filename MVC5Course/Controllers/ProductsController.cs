@@ -86,9 +86,12 @@ namespace MVC5Course.Controllers
         // 詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ProductId,ProductName,Price,Active,Stock")] Product product)
+        public ActionResult Edit(int id, FormCollection fc)
         {
-            if (ModelState.IsValid)
+            //[Bind(Include = "ProductId,ProductName,Price,Active,Stock")] Product product
+            var product = repo.Get單筆資料ByID(id);
+            // TryUpdateModel(query, "query") //示範加上 prefix 的 TryUpdateModel 用法
+            if (TryUpdateModel<Product>(product, new string[] { "ProductId", "ProductName", "Price", "Active", "Stock" }))
             {
                 //db.Entry(product).State = EntityState.Modified;
                 //db.SaveChanges();
