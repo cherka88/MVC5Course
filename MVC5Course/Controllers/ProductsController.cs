@@ -17,6 +17,7 @@ namespace MVC5Course.Controllers
         //private FabricsEntities db = new FabricsEntities();
 
         // GET: Products
+        [OutputCache(Duration = 5,Location = System.Web.UI.OutputCacheLocation.Server)]
         public ActionResult Index(bool active = true)
         {
             //var repo = new ProductRepository();

@@ -11,7 +11,7 @@ namespace MVC5Course.Controllers
     {
         protected FabricsEntities db = new FabricsEntities();
 
-        [LocalOnlyAttribute]
+        [LocalOnly]
         public ActionResult Debug()
         {
             return Content("Hello");
