@@ -17,6 +17,7 @@ namespace MVC5Course.Controllers
         public ActionResult About()
         {
 
+            throw new ArgumentException("ERROR");
             return View();
         }
 
