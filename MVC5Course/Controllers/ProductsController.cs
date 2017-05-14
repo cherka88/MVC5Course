@@ -167,6 +167,7 @@ namespace MVC5Course.Controllers
                                      Stock = p.Stock
 
                                  }).Take(20);
+            ViewBag.query = query;
         }
 
         public ActionResult CreateProduct()
@@ -198,6 +199,7 @@ namespace MVC5Course.Controllers
                     prod.Stock = item.Stock;
                 }
                 db.SaveChanges();
+                
                 return RedirectToAction("ProductList", query);
             }
             GetPrductRtn(query);
