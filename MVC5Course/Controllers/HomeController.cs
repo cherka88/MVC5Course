@@ -13,7 +13,7 @@ namespace MVC5Course.Controllers
             return View();
         }
 
-        [SharedViewBagAttribute]
+        [SharedViewBag]
         public ActionResult About()
         {
 
