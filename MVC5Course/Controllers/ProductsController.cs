@@ -60,7 +60,7 @@ namespace MVC5Course.Controllers
         [HandleError(ExceptionType = typeof(DbEntityValidationException), View = "DbEntityValidationException_error")]
         public ActionResult Create([Bind(Include = "ProductId,ProductName,Price,Active,Stock")] Product product)
         {
-            //if (ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 repo.Add(product);
                 repo.UnitOfWork.Commit();
