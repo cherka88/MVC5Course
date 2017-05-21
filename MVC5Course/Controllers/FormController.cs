@@ -15,7 +15,7 @@ namespace MVC5Course.Controllers
         {
             var all = db.Product.AsQueryable();
 
-            var data = all.Where(p => p.Active == true && p.Is刪除 != true).Take(20);
+            var data = all.Where(p => p.Active == true &&  p.Is刪除 != true).Take(20);
 
             return View(data);
         }

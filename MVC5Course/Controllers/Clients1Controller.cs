@@ -15,9 +15,27 @@ namespace MVC5Course.Controllers
         private FabricsEntities db = new FabricsEntities();
 
         // GET: Clients1
-        public ActionResult Index()
+        public ActionResult Index(int CreditRatingFilters = -1, string LastNamesFilters = "")
         {
+            db.Configuration.LazyLoadingEnabled = false;
+            var Ratings = db.Client.AsQueryable().OrderBy(p=>p.CreditRating)
+                .Select(p => p.CreditRating).Distinct().ToList();
+            ViewBag.CreditRatingFilters = new SelectList(Ratings);
+            var LastNames = (from c in db.Client
+                             orderby c.LastName
+                             select c.LastName).Distinct();
+            ViewBag.LastNamesFilters = new SelectList(LastNames);
             var client = db.Client.Include(c => c.Occupation).Take(10);
+            if (CreditRatingFilters>=0)
+            {
+                client = client.Where(p => p.CreditRating == CreditRatingFilters);
+            }
+            if(LastNamesFilters != "")
+            {
+                client = client.Where(p => p.LastName == LastNamesFilters);
+            }
+
+            
             return View(client.ToList());
         }
 
@@ -73,6 +91,8 @@ namespace MVC5Course.Controllers
             {
                 return HttpNotFound();
             }
+            int[] ratings = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            ViewBag.CreditRating = new SelectList(ratings);
             ViewBag.OccupationId = new SelectList(db.Occupation, "OccupationId", "OccupationName", client.OccupationId);
             return View(client);
         }
