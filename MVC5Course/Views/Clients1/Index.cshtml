@@ -72,4 +72,12 @@
 </table>
 @Html.PagedListPager(
     Model as IPagedList,
-    (p) => Url.Action("Index", new { pageNo = p }))
+    (p) => Url.Action("Index",
+    new { pageNo = p,
+        CreditRatingFilters = Html.Value("CreditRatingFilters"),
+        LastNamesFilters = Html.Value("LastNamesFilters")
+    }) //可透過viewData, viewBag方式 從controller吐出一包再帶入即可
+       //ex: new{viewBag.xxx}
+       //PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing("#Main"))
+       //使用ajax功能需要安裝ajax相關套件
+    )
