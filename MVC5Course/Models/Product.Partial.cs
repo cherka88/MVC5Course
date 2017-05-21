@@ -43,7 +43,9 @@ namespace MVC5Course.Models
         public Nullable<bool> Active { get; set; }
         [DisplayName("數量")]
         public Nullable<decimal> Stock { get; set; }
-    
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime createDate { get; set; }
         public virtual ICollection<OrderLine> OrderLine { get; set; }
     }
 }
