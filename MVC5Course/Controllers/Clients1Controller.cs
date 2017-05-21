@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MVC5Course.Models;
+using PagedList;
 
 namespace MVC5Course.Controllers
 {
@@ -15,7 +16,7 @@ namespace MVC5Course.Controllers
         private FabricsEntities db = new FabricsEntities();
 
         // GET: Clients1
-        public ActionResult Index(int CreditRatingFilters = -1, string LastNamesFilters = "")
+        public ActionResult Index(int pageNo = 1, int CreditRatingFilters = -1, string LastNamesFilters = "")
         {
             db.Configuration.LazyLoadingEnabled = false;
             var Ratings = db.Client.AsQueryable().OrderBy(p=>p.CreditRating)
@@ -25,7 +26,7 @@ namespace MVC5Course.Controllers
                              orderby c.LastName
                              select c.LastName).Distinct();
             ViewBag.LastNamesFilters = new SelectList(LastNames);
-            var client = db.Client.Include(c => c.Occupation).Take(10);
+            var client = db.Client.Include(c => c.Occupation);
             if (CreditRatingFilters>=0)
             {
                 client = client.Where(p => p.CreditRating == CreditRatingFilters);
@@ -35,8 +36,10 @@ namespace MVC5Course.Controllers
                 client = client.Where(p => p.LastName == LastNamesFilters);
             }
 
-            
-            return View(client.ToList());
+            ViewData.Model = client
+                .OrderByDescending(p => p.ClientId)
+                .ToPagedList(pageNo, 10);
+            return View();
         }
 
         // GET: Clients1/Details/5
